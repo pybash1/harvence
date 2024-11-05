@@ -4,11 +4,14 @@ import {
   CameraView,
   useCameraPermissions,
 } from "expo-camera";
+import { useLocales } from "expo-localization";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Text, View } from "react-native";
 
 export default function HomeScreen() {
+  const [locale] = useLocales();
+
   const [permission, requestPermission] = useCameraPermissions();
 
   const [barcodeData, setBarcodeData] = useState("");
@@ -23,13 +26,26 @@ export default function HomeScreen() {
 
   const onBarcodeDetect = async (result: BarcodeScanningResult) => {
     if (barcodeData === result.data) return;
+
     setBarcodeData(result.data);
-    console.log(result.data);
+
+    if (
+      result.type === "256" ||
+      result.data.length < 8 ||
+      result.data.length > 14 ||
+      Number.isNaN(Number(result.data))
+    ) {
+      alert("Scanned item is not a valid food product!");
+      return;
+    }
+
+    console.log(result.data + " | Number: " + Number(result.data));
+
     const res = await fetch(
-      `https://in.openfoodfacts.org/api/v2/product/${result.data}?fields=_id`,
+      `https://${locale.regionCode}.openfoodfacts.org/api/v2/product/${result.data}?fields=_id`,
       {
         headers: {
-          "User-Agent": "DietBetter/1.0 (hi@pybash.xyz)",
+          "User-Agent": "Harvence/1.0 (hi@pybash.xyz)",
         },
       }
     );
@@ -37,7 +53,7 @@ export default function HomeScreen() {
     if (data.status === 1) {
       router.push({ pathname: "/product/[id]", params: { id: result.data } });
     } else {
-      alert("This product does not exist in our records!");
+      alert("We couldn't find that product!");
     }
   };
 

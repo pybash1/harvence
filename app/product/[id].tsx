@@ -8,15 +8,18 @@ import {
   MaterialIcons,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
+import { useLocales } from "expo-localization";
 
 export default function ProductScreen() {
   const { id } = useLocalSearchParams();
+
+  const [locale] = useLocales();
 
   const [product, setProduct] = useState<Product>();
 
   useEffect(() => {
     fetch(
-      `https://in.openfoodfacts.org/api/v2/product/${id}?fields=nutriscore_grade,nutriscore_score,ecoscore_grade,nova_group,product_name,product_name_en,quantity,packaging,brands,brands_imported,_id,allergens,nutrient_levels,ingredients_analysis,image_url,nutriments,categories`,
+      `https://${locale.regionCode?.toLowerCase()}.openfoodfacts.org/api/v2/product/${id}?fields=nutriscore_grade,nutriscore_score,ecoscore_grade,nova_group,product_name,product_name_en,quantity,packaging,brands,brands_imported,_id,allergens,nutrient_levels,ingredients_analysis,image_url,nutriments,categories`,
       {
         headers: {
           "User-Agent": "Harvence/1.0",

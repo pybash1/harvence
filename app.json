@@ -13,7 +13,8 @@
       "backgroundColor": "#3355ff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pybash.harvence"
     },
     "android": {
       "adaptiveIcon": {
@@ -47,7 +48,8 @@
             "./assets/fonts/Plain-Bold.ttf"
           ]
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true
