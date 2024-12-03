@@ -7,6 +7,7 @@
     "icon": "./assets/images/icon.png",
     "scheme": "harvence",
     "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -23,7 +24,8 @@
       },
       "package": "com.pybash.harvence",
       "permissions": [
-        "android.permission.CAMERA"
+        "android.permission.CAMERA",
+        "android.permission.REQUEST_INSTALL_PACKAGES"
       ]
     },
     "web": {
@@ -49,7 +51,8 @@
           ]
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true
@@ -62,6 +65,15 @@
         "projectId": "7c3f82cc-2ac9-4488-8765-26458400ae6c"
       }
     },
-    "owner": "pybash"
+    "owner": "pybash",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/7c3f82cc-2ac9-4488-8765-26458400ae6c",
+      "requestHeaders": {
+        "expo-channel-name": "preview"
+      }
+    }
   }
 }
