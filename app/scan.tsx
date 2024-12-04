@@ -7,14 +7,17 @@ import {
 import { useLocales } from "expo-localization";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { Text, ToastAndroid, View } from "react-native";
+import Storage from "expo-sqlite/kv-store";
 
-export default function HomeScreen() {
+export default function ScanScreen() {
   const [locale] = useLocales();
 
   const [permission, requestPermission] = useCameraPermissions();
 
   const [barcodeData, setBarcodeData] = useState("");
+
+  // const { success, error } = useMigrationHelper();
 
   if (!permission) {
     return <View />;
@@ -35,14 +38,17 @@ export default function HomeScreen() {
       result.data.length > 14 ||
       Number.isNaN(Number(result.data))
     ) {
-      alert("Scanned item is not a valid food product!");
+      ToastAndroid.show(
+        "Scanned item is not a valid food product!",
+        ToastAndroid.SHORT
+      );
       return;
     }
 
     console.log(result.data + " | Number: " + Number(result.data));
 
     const res = await fetch(
-      `https://${locale.regionCode}.openfoodfacts.org/api/v2/product/${result.data}?fields=_id`,
+      `https://${locale.regionCode}.openfoodfacts.org/api/v2/product/${result.data}?fields=_id,product_name,quantity,nutriments`,
       {
         headers: {
           "User-Agent": "Harvence/1.0 (hi@pybash.xyz)",
@@ -51,9 +57,18 @@ export default function HomeScreen() {
     );
     const data: ProductResponse = await res.json();
     if (data.status === 1) {
+      Storage.setItem(
+        Date.now().toString(),
+        JSON.stringify({
+          name: data.product.product_name,
+          barcode: result.data,
+          quantity: data.product.quantity,
+          nutrition: data.product.nutriments["energy-kcal"],
+        })
+      );
       router.push({ pathname: "/product/[id]", params: { id: result.data } });
     } else {
-      alert("We couldn't find that product!");
+      ToastAndroid.show("We couldn't find that product!", ToastAndroid.SHORT);
     }
   };
 

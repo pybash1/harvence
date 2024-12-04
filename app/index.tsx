@@ -10,12 +10,18 @@ export default function HomeScreen() {
       <Text className="uppercase text-white font-bold bg-black py-2 px-6 rounded-full text-3xl font-plainBold">
         Harvence
       </Text>
-      <View className="h-full flex items-center justify-center">
+      <View className="h-full flex items-center justify-center gap-4">
         <Link
           href="/scan"
           className="text-white font-bold bg-black py-2 px-6 rounded-full text-3xl transition ease-in-out duration-300 font-plainBold active:bg-yellow-400 active:text-black active:scale-150"
         >
           Scan
+        </Link>
+        <Link
+          href="/history"
+          className="text-white font-bold bg-black py-2 px-6 rounded-full text-3xl transition ease-in-out duration-300 font-plainBold active:bg-yellow-400 active:text-black active:scale-150"
+        >
+          History
         </Link>
       </View>
       <Text className="text-sm text-gray-400 absolute bottom-4 ">
