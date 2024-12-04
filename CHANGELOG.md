@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/pybash1/harvence/compare/v1.1.0...v1.2.0) (2024-12-04)
+
+
+### Features
+
+* **history:** added a history page with clickable items ([4e51135](https://github.com/pybash1/harvence/commit/4e51135ea86e87e2960f2222225deed2cb275f00))
+* **not found page:** improved the not found page to match the color palette ([696f8df](https://github.com/pybash1/harvence/commit/696f8df1ddae643402626f972cb52ede9f9bb498))
+
 ## 1.1.0 (2024-11-05)
 
 
