@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/pybash1/harvence/compare/v1.2.0...v1.3.0) (2024-12-07)
+
+
+### Features
+
+* **auto-update:** manual auto update system is now in place ([b6209f7](https://github.com/pybash1/harvence/commit/b6209f7dee106de9340c4d0f0dfeff7bea3c01d6))
+
 ## [1.2.0](https://github.com/pybash1/harvence/compare/v1.1.0...v1.2.0) (2024-12-04)
 
 
