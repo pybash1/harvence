@@ -50,6 +50,7 @@
     "react-native-screens": "~4.1.0",
     "react-native-speedometer": "^1.0.5",
     "react-native-web": "~0.19.13",
+    "semver": "^7.6.3",
     "sql.js": "^1.12.0",
     "tailwindcss": "^3.4.15"
   },
@@ -58,6 +59,7 @@
     "@types/jest": "^29.5.14",
     "@types/react": "~18.3.12",
     "@types/react-test-renderer": "^18.3.0",
+    "@types/semver": "^7.5.8",
     "@types/sql.js": "^1.4.9",
     "babel-plugin-inline-import": "^3.0.0",
     "cz-conventional-changelog": "^3.3.0",
