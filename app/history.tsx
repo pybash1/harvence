@@ -1,10 +1,14 @@
+import { groupBy } from "@/constants/utils";
 import { useLocales } from "expo-localization";
 import { router } from "expo-router";
 import { Storage } from "expo-sqlite/kv-store";
-import { SafeAreaView, ScrollView, Text, View } from "react-native";
+import { FlatList, SafeAreaView, ScrollView, Text, View } from "react-native";
 
 export default function HistoryScreen() {
-  const scans = Storage.getAllKeysSync();
+  const scans = groupBy(
+    Storage.getAllKeysSync(),
+    (scan) => new Date(Number(scan)).toISOString().split("T")[0]
+  );
 
   const [locale] = useLocales();
 
@@ -12,49 +16,112 @@ export default function HistoryScreen() {
     <SafeAreaView>
       <ScrollView
         className="h-full bg-gray-200 pt-6 px-4 flex font-plain"
-        contentContainerClassName="gap-6"
+        contentContainerClassName="gap-10"
       >
-        {scans.reverse().map((scan) => {
-          const product = JSON.parse(Storage.getItemSync(scan)!);
-          return (
-            <View key={scan} className="flex flex-col gap-2">
-              <Text>
-                {new Date(Number(scan)).toLocaleDateString(locale.languageTag, {
-                  day: "2-digit",
-                  year: "numeric",
-                  month: "long",
-                })}{" "}
-                at{" "}
-                {new Date(Number(scan)).toLocaleTimeString(locale.languageTag, {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </Text>
-              <View
-                className="bg-white rounded-md shadow-xl px-6 py-4 flex flex-row justify-between items-center"
-                onTouchEnd={() => router.push(`/product/${product.barcode}`)}
-              >
-                <View>
-                  <Text
-                    className="text-xl font-semibold max-w-72"
-                    numberOfLines={1}
-                  >
-                    {product.name}
-                  </Text>
-                  <Text>
-                    {product.nutrition ? product.nutrition : "Unknown"}{" "}
-                    {product.nutrition ? "kcal" : null}
-                  </Text>
-                </View>
-                <Text className="font-semibold text-lg text-gray-600">
-                  {product.quantity}
+        {Object.keys(scans)
+          .reverse()
+          .map((scan) => {
+            const date = new Date(scan);
+            return (
+              <View key={scan} className="flex flex-col gap-2">
+                <Text className="font-bold text-2xl">
+                  {new Date().setHours(0, 0, 0, 0) === date.setHours(0, 0, 0, 0)
+                    ? "Today"
+                    : new Date().setHours(0, 0, 0, 0) + 86400000 ===
+                      date.setHours(0, 0, 0, 0)
+                    ? "Yesterday"
+                    : date > new Date(Date.now() - 1000 * 60 * 60 * 24 * 7)
+                    ? date.toLocaleDateString(undefined, { weekday: "long" })
+                    : date.toLocaleDateString(locale.languageTag, {
+                        day: "2-digit",
+                        year: "numeric",
+                        month: "long",
+                      })}
                 </Text>
+                <FlatList
+                  data={scans[scan]
+                    .reverse()
+                    .map((time) => JSON.parse(Storage.getItemSync(time)!))}
+                  contentContainerClassName="gap-4"
+                  columnWrapperClassName="gap-4"
+                  renderItem={(product) => (
+                    <View
+                      key={product.index}
+                      className="flex-1 bg-white rounded-xl px-4 py-2"
+                      onTouchEnd={() =>
+                        router.push(`/product/${product.item.barcode}`)
+                      }
+                      style={{
+                        backgroundColor: ["A", "B", "a", "b"].includes(
+                          product.item.nutriscore
+                        )
+                          ? "#77d99b"
+                          : product.item.nutriscore === "C" ||
+                            product.item.nutriscore === "c"
+                          ? "#f7da81"
+                          : "#ffa8a8",
+                      }}
+                    >
+                      <View className="flex flex-col gap-3">
+                        <View className="flex">
+                          <Text
+                            className="text-lg font-semibold max-w-72 text-blue-600"
+                            numberOfLines={1}
+                            style={{
+                              color: ["A", "B", "a", "b"].includes(
+                                product.item.nutriscore
+                              )
+                                ? "#006324"
+                                : product.item.nutriscore === "C" ||
+                                  product.item.nutriscore === "c"
+                                ? "#785b01"
+                                : "#6e0101",
+                            }}
+                          >
+                            {product.item.name}
+                          </Text>
+                          <Text
+                            style={{
+                              color: ["A", "B", "a", "b"].includes(
+                                product.item.nutriscore
+                              )
+                                ? "#006324"
+                                : product.item.nutriscore === "C" ||
+                                  product.item.nutriscore === "c"
+                                ? "#785b01"
+                                : "#6e0101",
+                            }}
+                          >
+                            {product.item.nutrition
+                              ? product.item.nutrition
+                              : "Unknown"}{" "}
+                            {product.item.nutrition ? "kcal" : null}
+                          </Text>
+                        </View>
+                        <Text
+                          className="font-semibold text-sm"
+                          style={{
+                            color: ["A", "B", "a", "b"].includes(
+                              product.item.nutriscore
+                            )
+                              ? "#006324"
+                              : product.item.nutriscore === "C" ||
+                                product.item.nutriscore === "c"
+                              ? "#785b01"
+                              : "#6e0101",
+                          }}
+                        >
+                          {product.item.quantity}
+                        </Text>
+                      </View>
+                    </View>
+                  )}
+                  numColumns={2}
+                />
               </View>
-            </View>
-          );
-        })}
-        <View></View>
-        <View></View>
+            );
+          })}
+        <View className="h-10"></View>
       </ScrollView>
     </SafeAreaView>
   );

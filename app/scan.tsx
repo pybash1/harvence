@@ -48,7 +48,7 @@ export default function ScanScreen() {
     console.log(result.data + " | Number: " + Number(result.data));
 
     const res = await fetch(
-      `https://${locale.regionCode}.openfoodfacts.org/api/v2/product/${result.data}?fields=_id,product_name,quantity,nutriments`,
+      `https://${locale.regionCode}.openfoodfacts.org/api/v2/product/${result.data}?fields=_id,product_name,quantity,nutriments,nutriscore_grade`,
       {
         headers: {
           "User-Agent": "Harvence/1.0 (hi@pybash.xyz)",
@@ -64,6 +64,7 @@ export default function ScanScreen() {
           barcode: result.data,
           quantity: data.product.quantity,
           nutrition: data.product.nutriments["energy-kcal"],
+          nutriscore: data.product.nutriscore_grade.toUpperCase(),
         })
       );
       router.push({ pathname: "/product/[id]", params: { id: result.data } });
