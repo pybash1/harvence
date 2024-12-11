@@ -1,5 +1,5 @@
-import { groupBy } from "@/constants/utils";
-import { useLocales } from "expo-localization";
+import { getHealthyPercentage, groupBy } from "@/constants/utils";
+import { getCalendars, useLocales } from "expo-localization";
 import { router } from "expo-router";
 import { Storage } from "expo-sqlite/kv-store";
 import { FlatList, SafeAreaView, ScrollView, Text, View } from "react-native";
@@ -10,6 +10,8 @@ export default function HistoryScreen() {
     (scan) => new Date(Number(scan)).toISOString().split("T")[0]
   );
 
+  const percentageChange = getHealthyPercentage(scans);
+
   const [locale] = useLocales();
 
   return (
@@ -18,6 +20,26 @@ export default function HistoryScreen() {
         className="h-full bg-gray-200 pt-6 px-4 flex font-plain"
         contentContainerClassName="gap-10"
       >
+        {!Number.isNaN(percentageChange) ? (
+          <View
+            className="flex-1 bg-white rounded-xl px-4 py-2"
+            style={{
+              backgroundColor: percentageChange > 0 ? "#77d99b" : "#ffa8a8",
+            }}
+          >
+            <View className="flex flex-col gap-3">
+              <Text
+                className="text-lg font-semibold"
+                style={{
+                  color: percentageChange > 0 ? "#006324" : "#6e0101",
+                }}
+              >
+                This week you ate {Math.abs(percentageChange)}% more{" "}
+                {percentageChange < 0 ? "un" : ""}healthy foods than last week!
+              </Text>
+            </View>
+          </View>
+        ) : null}
         {Object.keys(scans)
           .reverse()
           .map((scan) => {
@@ -65,7 +87,7 @@ export default function HistoryScreen() {
                       <View className="flex flex-col gap-3">
                         <View className="flex">
                           <Text
-                            className="text-lg font-semibold max-w-72 text-blue-600"
+                            className="text-lg font-semibold max-w-72"
                             numberOfLines={1}
                             style={{
                               color: ["A", "B", "a", "b"].includes(
