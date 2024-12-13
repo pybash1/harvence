@@ -7,6 +7,10 @@ export interface ProductResponse {
   status_verbose: string;
 }
 
+export interface SearchResponse {
+  hits: SearchProduct[];
+}
+
 export interface Product {
   _id: string;
   product_name: string;
@@ -29,4 +33,14 @@ export interface Product {
     carbohydrates_100g?: number;
   };
   ingredients_analysis: { [key: string]: string[] };
+}
+
+export interface SearchProduct {
+  code: string;
+  product_name: string;
+  quantity: string;
+  nutriscore_grade: "a" | "b" | "c" | "d" | "e" | "unknown";
+  nutriments?: {
+    "energy-kcal"?: number;
+  };
 }
