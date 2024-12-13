@@ -2,7 +2,7 @@ import { Feather } from "@expo/vector-icons";
 import { useLocales } from "expo-localization";
 import { Link, router } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -12,6 +12,7 @@ import {
 } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SearchProduct, SearchResponse } from "@/constants/types";
+import * as Application from "expo-application";
 
 export default function HomeScreen() {
   const [locale] = useLocales();
@@ -33,7 +34,7 @@ export default function HomeScreen() {
         `https://search.openfoodfacts.org/search?q=${query}&fields=code,product_name,quantity,categories,nutriscore_grade`,
         {
           headers: {
-            "User-Agent": "Harvence/1.0",
+            "User-Agent": `Harvence/${Application.nativeApplicationVersion} (hi@pybash.xyz)`,
           },
         }
       ).then((res) =>

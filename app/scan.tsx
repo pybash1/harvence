@@ -9,6 +9,7 @@ import { router } from "expo-router";
 import { useState } from "react";
 import { Text, ToastAndroid, View } from "react-native";
 import Storage from "expo-sqlite/kv-store";
+import { nativeApplicationVersion } from "expo-application";
 
 export default function ScanScreen() {
   const [locale] = useLocales();
@@ -51,7 +52,7 @@ export default function ScanScreen() {
       `https://${locale.regionCode}.openfoodfacts.org/api/v2/product/${result.data}?fields=_id,product_name,quantity,nutriments,nutriscore_grade`,
       {
         headers: {
-          "User-Agent": "Harvence/1.0 (hi@pybash.xyz)",
+          "User-Agent": `Harvence/${nativeApplicationVersion} (hi@pybash.xyz)`,
         },
       }
     );
