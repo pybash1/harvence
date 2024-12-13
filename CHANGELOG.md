@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/pybash1/harvence/compare/v1.3.0...v1.4.0) (2024-12-13)
+
+
+### Features
+
+* **analysis:** weekly analysis is now viewable in the history page ([81e5556](https://github.com/pybash1/harvence/commit/81e55564291ab8922d7bf46650c33fda2582f579))
+* **search:** implemented search functionality ([cac488a](https://github.com/pybash1/harvence/commit/cac488a326dfa86c9ebf9b71db5bce2c8c3e3805))
+* **ui:** new and improved history ui ([926e3bf](https://github.com/pybash1/harvence/commit/926e3bfb4a97d71a4a58e870d6ff22f12439b873))
+
+
+### Bug Fixes
+
+* **fetch:** fixed user agent for data fetching ([23b1a73](https://github.com/pybash1/harvence/commit/23b1a738a2af7140603802eb21f6f1cebf862aff))
+
 ## [1.3.0](https://github.com/pybash1/harvence/compare/v1.2.0...v1.3.0) (2024-12-07)
 
 
