@@ -20,7 +20,6 @@ export default function HomeScreen() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchProduct[]>([]);
   const searchModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ["60%", "90%"], []);
 
   const handleQuery = useCallback((text: string) => setQuery(text), []);
 
@@ -42,7 +41,7 @@ export default function HomeScreen() {
           setResults(data.hits);
         })
       );
-    }
+    } else setResults([]);
   }, [query]);
 
   return (
@@ -61,7 +60,12 @@ export default function HomeScreen() {
                 className="rounded-full p-4 bg-black"
               />
             </TouchableOpacity>
-            <BottomSheetModal ref={searchModalRef} snapPoints={snapPoints}>
+            <BottomSheetModal
+              ref={searchModalRef}
+              enableDynamicSizing={false}
+              snapPoints={["60%", "95%"]}
+              index={0}
+            >
               <BottomSheetView className="px-4 py-4 flex gap-4">
                 <BottomSheetTextInput
                   className="bg-black/10 rounded-full px-4 py-4"
