@@ -1,5 +1,5 @@
 import { getHealthyPercentage, groupBy } from "@/constants/utils";
-import { getCalendars, useLocales } from "expo-localization";
+import { useLocales } from "expo-localization";
 import { router } from "expo-router";
 import { Storage } from "expo-sqlite/kv-store";
 import { FlatList, SafeAreaView, ScrollView, Text, View } from "react-native";
@@ -66,6 +66,7 @@ export default function HistoryScreen() {
                     .map((time) => JSON.parse(Storage.getItemSync(time)!))}
                   contentContainerClassName="gap-4"
                   columnWrapperClassName="gap-4"
+                  scrollEnabled={false}
                   renderItem={(product) => (
                     <View
                       key={product.index}
