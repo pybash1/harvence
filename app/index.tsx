@@ -1,7 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import { useLocales } from "expo-localization";
 import { Link, router } from "expo-router";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import {
   BottomSheetModal,
@@ -13,6 +13,7 @@ import {
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SearchProduct, SearchResponse } from "@/constants/types";
 import * as Application from "expo-application";
+import Storage from "expo-sqlite/kv-store";
 
 export default function HomeScreen() {
   const [locale] = useLocales();
@@ -81,7 +82,19 @@ export default function HomeScreen() {
                     <View
                       key={product.code}
                       className="rounded-xl px-4 py-4"
-                      onTouchEnd={() => router.push(`/product/${product.code}`)}
+                      onTouchEnd={() => {
+                        Storage.setItemSync(
+                          Date.now().toString(),
+                          JSON.stringify({
+                            name: product.product_name,
+                            barcode: product.code,
+                            quantity: product.quantity,
+                            nutrition: product.nutriments?.["energy-kcal"],
+                            nutriscore: product.nutriscore_grade.toUpperCase(),
+                          })
+                        );
+                        router.push(`/product/${product.code}`);
+                      }}
                       style={{
                         backgroundColor: ["A", "B"].includes(
                           product.nutriscore_grade.toUpperCase()

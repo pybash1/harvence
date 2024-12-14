@@ -15,7 +15,6 @@ export default function ScanScreen() {
   const [locale] = useLocales();
 
   const [permission, requestPermission] = useCameraPermissions();
-
   const [barcodeData, setBarcodeData] = useState("");
 
   // const { success, error } = useMigrationHelper();
