@@ -64,7 +64,7 @@ export default function HomeScreen() {
             <BottomSheetModal
               ref={searchModalRef}
               enableDynamicSizing={false}
-              snapPoints={["60%", "95%"]}
+              snapPoints={results.length ? ["60%", "95%"] : ["15%", "95%"]}
               index={0}
             >
               <BottomSheetView className="px-4 py-4 flex gap-4">
