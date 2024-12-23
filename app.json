@@ -23,10 +23,7 @@
         "backgroundColor": "#3355ff"
       },
       "package": "com.pybash.harvence",
-      "permissions": [
-        "android.permission.CAMERA",
-        "android.permission.REQUEST_INSTALL_PACKAGES"
-      ]
+      "permissions": ["android.permission.CAMERA"]
     },
     "web": {
       "bundler": "metro",
