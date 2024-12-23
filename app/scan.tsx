@@ -1,15 +1,17 @@
 import { ProductResponse } from "@/constants/types";
 import {
   BarcodeScanningResult,
+  Camera,
   CameraView,
   useCameraPermissions,
 } from "expo-camera";
 import { useLocales } from "expo-localization";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Text, ToastAndroid, View } from "react-native";
+import { Text, ToastAndroid, TouchableOpacity, View } from "react-native";
 import Storage from "expo-sqlite/kv-store";
 import { nativeApplicationVersion } from "expo-application";
+import * as DocumentPicker from "expo-document-picker";
 
 export default function ScanScreen() {
   const [locale] = useLocales();
@@ -73,9 +75,35 @@ export default function ScanScreen() {
     }
   };
 
+  const handleDocumentSelect = async () => {
+    const { canceled, assets } = await DocumentPicker.getDocumentAsync({
+      type: "image/*",
+      // copyToCacheDirectory: false,
+    });
+    if (!canceled) {
+      console.log("URI: " + assets?.[0].uri!);
+      const results = await Camera.scanFromURLAsync(assets?.[0].uri, [
+        "ean13",
+        "ean8",
+        "upc_a",
+        "upc_e",
+      ]);
+      if (!results.length) {
+        ToastAndroid.show(
+          "No barcode found in that image!",
+          ToastAndroid.SHORT
+        );
+        return;
+      }
+
+      onBarcodeDetect(results[0]);
+    }
+  };
+
   return (
-    <View className="h-full flex items-center justify-center bg-primary">
-      <View className="absolute flex flex-col items-center justify-center w-full gap-10 h-full">
+    <View className="h-full flex items-center justify-between bg-primary py-10">
+      <View></View>
+      <View className="flex flex-col items-center justify-center w-full gap-10">
         <Text className="text-center w-full text-white font-semibold text-4xl">
           Scan a Barcode
         </Text>
@@ -87,6 +115,11 @@ export default function ScanScreen() {
           ></CameraView>
         </View>
       </View>
+      <TouchableOpacity onPress={handleDocumentSelect} activeOpacity={0.7}>
+        <Text className="text-white bg-black py-2 px-6 rounded-full text-lg font-plain">
+          Select from device
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
