@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/pybash1/harvence/compare/v1.4.0...v1.5.0) (2024-12-23)
+
+
+### Features
+
+* **scan:** scanning image from file system is now also an option ([65abe1a](https://github.com/pybash1/harvence/commit/65abe1a77c9a5602824a651d6de1b5d77464bdcb))
+
+
+### Bug Fixes
+
+* **bottom sheet:** fixed sizing for when there are no results ([ac807c2](https://github.com/pybash1/harvence/commit/ac807c2f49bd67cc28cf77a2ca2ee7962514f88d))
+* **bottom sheet:** fixed sizing of the bottom sheet modal ([69a6548](https://github.com/pybash1/harvence/commit/69a6548fd4f4c3120a5516e31a75c91658f89f67))
+* fixed internal virtualized list error ([d84c5ea](https://github.com/pybash1/harvence/commit/d84c5ea32c938e0e7d2f2fa8753c5f9559acfcc5))
+* fixed the scale getting stuck issue ([5148ba3](https://github.com/pybash1/harvence/commit/5148ba358384907a2fd5b6b27f798f3f28b08d1f))
+* **search:** searched items are now added to history ([418b191](https://github.com/pybash1/harvence/commit/418b191dfd3863498e9cb7f48de9efc45f6df1a2))
+
 ## [1.4.0](https://github.com/pybash1/harvence/compare/v1.3.0...v1.4.0) (2024-12-13)
 
 
